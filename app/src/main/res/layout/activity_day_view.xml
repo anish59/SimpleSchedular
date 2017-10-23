@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bbt.simpleSchedular.DayViewActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:orientation="horizontal"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/toolBarStyle" />
+
+    <com.bbt.simpleSchedular.widgets.LinedEditText
+        android:id="@+id/edtStory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:gravity="top|left"
+        android:imeOptions="actionNone"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:minLines="10"
+        android:padding="@dimen/dimen_4dp"
+        android:singleLine="false"
+        android:text="@string/dummyText" />
+
+
+</LinearLayout>
