@@ -18,7 +18,7 @@ public class AppOpenHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "Scheduler.db";
     public static final int DB_VERSION = 1;
     private static AppOpenHelper instance;
-    private static final String DATABASE_PATH = "/data/data/com.example.anish.assistant/databases/";
+    private static final String DATABASE_PATH = "/data/data/com.bbt.simpleSchedular/databases/";
 
     public static AppOpenHelper getInstance(Context context) {
         if (instance == null) {

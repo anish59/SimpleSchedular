@@ -168,40 +168,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.cardMonday:
                 day = getString(R.string.monday);
-                launchIntent(day);
+                launchIntent(day, AppConstants.Monday);
                 break;
             case R.id.cardTuesday:
                 day = getString(R.string.tuesday);
-                launchIntent(day);
+                launchIntent(day, AppConstants.Tuesday);
                 break;
             case R.id.cardWednesday:
                 day = getString(R.string.wednesday);
-                launchIntent(day);
+                launchIntent(day, AppConstants.Wednesday);
                 break;
             case R.id.cardThursday:
                 day = getString(R.string.thursday);
-                launchIntent(day);
+                launchIntent(day, AppConstants.Thursday);
                 break;
             case R.id.cardFriday:
                 day = getString(R.string.friday);
-                launchIntent(day);
+                launchIntent(day, AppConstants.Friday);
                 break;
             case R.id.cardSaturday:
                 day = getString(R.string.saturday);
-                launchIntent(day);
+                launchIntent(day, AppConstants.Saturday);
                 break;
 
             case R.id.cardSunday:
                 day = getString(R.string.sunday);
-                launchIntent(day);
+                launchIntent(day, AppConstants.Sunday);
                 break;
 
         }
     }
 
-    private void launchIntent(String day) {
+    private void launchIntent(String day, int weekDayId) {
         Intent intent = new Intent(context, DayViewActivity.class);
         intent.putExtra(AppConstants.INTENT_DAY, day);
+        intent.putExtra(AppConstants.INTENT_WEEK_DAY_ID, weekDayId);
         startActivity(intent);
     }
 }

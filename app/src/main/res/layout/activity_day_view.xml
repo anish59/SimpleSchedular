@@ -15,6 +15,11 @@
         android:orientation="horizontal"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/toolBarStyle" />
+    <Button
+        android:onClick="clickOnSave"
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <com.bbt.simpleSchedular.widgets.LinedEditText
         android:id="@+id/edtStory"
@@ -22,12 +27,13 @@
         android:layout_height="match_parent"
         android:background="@null"
         android:gravity="top|left"
+        android:hint="Start writing"
         android:imeOptions="actionNone"
         android:inputType="textMultiLine|textNoSuggestions"
         android:minLines="10"
         android:padding="@dimen/dimen_4dp"
-        android:singleLine="false"
-        android:text="@string/dummyText" />
+        android:singleLine="false" />
+
 
 
 </LinearLayout>

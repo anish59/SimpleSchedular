@@ -1,0 +1,14 @@
+CREATE TABLE DaySchedule (
+    daySchedule_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    weekDay_id INTEGER,
+    weekDay TEXT,
+    story TEXT,
+    createdDateInt INTEGER,
+    updatedDateInt INTEGER
+);
+
+select_all_from_DaySchedule:
+select * from DaySchedule where weekDay_id=?;
+
+insert_into_DaySchedule:
+INSERT into DaySchedule(weekDay_id, weekDay, story,createdDateInt,updatedDateInt) VALUES (?, ?, ?, ?, ?);
