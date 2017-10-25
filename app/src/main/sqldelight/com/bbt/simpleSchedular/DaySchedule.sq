@@ -12,3 +12,9 @@ select * from DaySchedule where weekDay_id=?;
 
 insert_into_DaySchedule:
 INSERT into DaySchedule(weekDay_id, weekDay, story,createdDateInt,updatedDateInt) VALUES (?, ?, ?, ?, ?);
+
+update_into_DaySchedule:
+Update  DaySchedule set story=?,updatedDateInt=? where daySchedule_id=?;
+
+Delete_DaySchedule:
+Delete from DaySchedule where daySchedule_id=?;

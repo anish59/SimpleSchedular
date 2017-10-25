@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.bbt.simpleSchedular.helper.AppConstants;
+import com.bbt.simpleSchedular.helper.DateHelper;
 import com.bbt.simpleSchedular.helper.FunctionHelper;
 import com.bbt.simpleSchedular.model.DaySchedule;
 import com.bbt.simpleSchedular.model.DayScheduleRequest;
@@ -24,6 +25,7 @@ import com.bbt.simpleSchedular.widgets.LinedEditText;
 
 import junit.framework.Test;
 
+import java.util.Date;
 import java.util.List;
 
 public class DayViewActivity extends AppCompatActivity {
@@ -36,6 +38,8 @@ public class DayViewActivity extends AppCompatActivity {
     private boolean isEditingEnabled = false;
     private boolean isUpdate = false;
     DaySchedule daySchedule;
+    private Long createdDateInt;
+    private long dayScheduleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,8 @@ public class DayViewActivity extends AppCompatActivity {
             List<DaySchedule> dayScheduleList = DaySchedule.getWeekdayStory(weekDayId);
             if (dayScheduleList != null && dayScheduleList.size() > 0) {
                 edtStory.setText(dayScheduleList.get(0).story());
+                createdDateInt = dayScheduleList.get(0).createdDateInt();
+                dayScheduleId = dayScheduleList.get(0).daySchedule_id();
                 isUpdate = true;
             } else {
                 isUpdate = false;
@@ -117,9 +123,6 @@ public class DayViewActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_day_view, menu);
 
-        menuSaveStory = menu.findItem(R.id.menuSaveStory);
-        menuEditStory = menu.findItem(R.id.menuEditStory);
-        menuDeleteStory = menu.findItem(R.id.menuDeleteStory);
 
         return true;
     }
@@ -153,30 +156,66 @@ public class DayViewActivity extends AppCompatActivity {
             return;
         }
         String story = edtStory.getText().toString();
-
+        long currentdateTime = Long.parseLong(DateHelper.getDateInIntFormat(new Date()));
 
         if (day != null && weekDayId != 0) {
             DayScheduleRequest dayScheduleRequest = new DayScheduleRequest();
             dayScheduleRequest.setWeekDay_id((long) weekDayId);
             dayScheduleRequest.setWeekDay(day);
             dayScheduleRequest.setStory(story);
-            /*dayScheduleRequest.setCreatedDateInt(createdDateInt);
-            dayScheduleRequest.setUpdatedDateInt(createdDateInt);*/
+            dayScheduleRequest.setCreatedDateInt(currentdateTime);//old created date time
+            dayScheduleRequest.setUpdatedDateInt(currentdateTime);
             try {
                 DaySchedule.insertInDaySchedule(dayScheduleRequest);
+                Toast.makeText(context, "Inserted", Toast.LENGTH_SHORT).show();
+                finish();
             } catch (Exception e) {
-                Toast.makeText(context, "err" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println("err" + e.getMessage());
             }
-            Toast.makeText(context, "Inserted", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void deleteStory() {
-
+        try {
+            DaySchedule.deleteDaySchedule(dayScheduleId);
+            Toast.makeText(context, "Story deleted!", Toast.LENGTH_SHORT).show();
+            finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateStory() {
-
+        if (TextUtils.isEmpty(edtStory.getText().toString())) {
+            Toast.makeText(context, String.format("your %s story is empty", day), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String story = edtStory.getText().toString();
+        long currentdateTime = Long.parseLong(DateHelper.getDateInIntFormat(new Date()));
+        try {
+            DaySchedule.updateInDaySchedule(dayScheduleId, story, currentdateTime);
+            Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finish();
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menuSaveStory = menu.findItem(R.id.menuSaveStory);
+        menuEditStory = menu.findItem(R.id.menuEditStory);
+        menuDeleteStory = menu.findItem(R.id.menuDeleteStory);
+
+        if (isUpdate) {
+            menuEditStory.setVisible(true);
+            menuDeleteStory.setVisible(true);
+            menuSaveStory.setVisible(false);
+        } else {
+            menuSaveStory.setVisible(true);
+            menuEditStory.setVisible(false);
+            menuDeleteStory.setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 }

@@ -15,11 +15,7 @@
         android:orientation="horizontal"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/toolBarStyle" />
-    <Button
-        android:onClick="clickOnSave"
-        android:text="Save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
 
     <com.bbt.simpleSchedular.widgets.LinedEditText
         android:id="@+id/edtStory"
@@ -33,7 +29,6 @@
         android:minLines="10"
         android:padding="@dimen/dimen_4dp"
         android:singleLine="false" />
-
 
 
 </LinearLayout>

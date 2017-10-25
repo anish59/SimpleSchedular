@@ -34,6 +34,23 @@ public abstract class DaySchedule implements DayScheduleModel {
         DatabaseManager.getInstance().closeDatabase();
     }
 
+    public static void updateInDaySchedule(long dayScheduleId, String story, long updatedDateInt) {
+        SQLiteDatabase sqLiteDatabase = DatabaseManager.getInstance().openDatabase();
+        DaySchedule.Update_into_DaySchedule update_into_daySchedule = new Update_into_DaySchedule(sqLiteDatabase);
+        update_into_daySchedule.bind(story, updatedDateInt, dayScheduleId);
+        update_into_daySchedule.program.execute();
+        DatabaseManager.getInstance().closeDatabase();
+    }
+
+    public static void deleteDaySchedule(long dayScheduleId) {
+        SQLiteDatabase sqLiteDatabase = DatabaseManager.getInstance().openDatabase();
+        DaySchedule.Delete_DaySchedule delete_daySchedule = new Delete_DaySchedule(sqLiteDatabase);
+        delete_daySchedule.bind(dayScheduleId);
+        delete_daySchedule.program.execute();
+        DatabaseManager.getInstance().closeDatabase();
+    }
+
+
     public static List<DaySchedule> getWeekdayStory(long weekDayId) {
         List<DaySchedule> daySchedules = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = DatabaseManager.getInstance().openDatabase();
