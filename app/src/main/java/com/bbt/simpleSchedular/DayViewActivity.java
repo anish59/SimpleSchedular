@@ -42,7 +42,7 @@ public class DayViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context = this;
         init();
-        initListeners();
+//        initListeners();
     }
 
     private void initListeners() {
@@ -71,7 +71,7 @@ public class DayViewActivity extends AppCompatActivity {
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         getIntentData();
-        setTextEditing();
+//        setTextEditing();
     }
 
     private void setTextEditing() {
@@ -103,11 +103,9 @@ public class DayViewActivity extends AppCompatActivity {
 
             List<DaySchedule> dayScheduleList = DaySchedule.getWeekdayStory(weekDayId);
             if (dayScheduleList != null && dayScheduleList.size() > 0) {
+                edtStory.setText(dayScheduleList.get(0).story());
                 isUpdate = true;
-                menuEditStory.setVisible(true);
-                menuDeleteStory.setVisible(true);
             } else {
-                menuSaveStory.setVisible(true);
                 isUpdate = false;
             }
         }
