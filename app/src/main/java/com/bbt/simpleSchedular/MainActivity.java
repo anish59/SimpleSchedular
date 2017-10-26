@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bbt.simpleSchedular.helper.AppConstants;
@@ -49,6 +50,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private android.support.v7.widget.CardView cardFriday;
     private android.support.v7.widget.CardView cardSaturday;
     private android.support.v7.widget.CardView cardSunday;
+    private android.widget.RelativeLayout rLayoutMonday;
+    private android.widget.RelativeLayout rLayoutTuesday;
+    private android.widget.RelativeLayout rLayoutWednesday;
+    private android.widget.RelativeLayout rLayoutThursday;
+    private android.widget.RelativeLayout rLayoutFriday;
+    private android.widget.RelativeLayout rLayoutSaturday;
+    private android.widget.RelativeLayout rLayoutSunday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +79,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void init() {
         setContentView(R.layout.activity_main);
+        this.rLayoutSunday = (RelativeLayout) findViewById(R.id.rLayoutSunday);
+        this.rLayoutSaturday = (RelativeLayout) findViewById(R.id.rLayoutSaturday);
+        this.rLayoutFriday = (RelativeLayout) findViewById(R.id.rLayoutFriday);
+        this.rLayoutThursday = (RelativeLayout) findViewById(R.id.rLayoutThursday);
+        this.rLayoutWednesday = (RelativeLayout) findViewById(R.id.rLayoutWednesday);
+        this.rLayoutTuesday = (RelativeLayout) findViewById(R.id.rLayoutTuesday);
+        this.rLayoutMonday = (RelativeLayout) findViewById(R.id.rLayoutMonday);
         this.cardSunday = (CardView) findViewById(R.id.cardSunday);
         this.cardSaturday = (CardView) findViewById(R.id.cardSaturday);
         this.cardFriday = (CardView) findViewById(R.id.cardFriday);
@@ -124,39 +139,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgBookMark6.setVisibility(View.GONE);
         imgBookMark7.setVisibility(View.GONE);
 
+        rLayoutMonday.setBackgroundColor(getResources().getColor(R.color.lightPink));
+        rLayoutTuesday.setBackgroundColor(getResources().getColor(R.color.lightPink));
+        rLayoutWednesday.setBackgroundColor(getResources().getColor(R.color.lightPink));
+        rLayoutThursday.setBackgroundColor(getResources().getColor(R.color.lightPink));
+        rLayoutFriday.setBackgroundColor(getResources().getColor(R.color.lightPink));
+        rLayoutSaturday.setBackgroundColor(getResources().getColor(R.color.lightPink));
+        rLayoutSunday.setBackgroundColor(getResources().getColor(R.color.lightPink));
         switch (day) {
             case Calendar.MONDAY:
                 FunctionHelper.initToolbar(MainActivity.this, toolbar, getString(R.string.monday), "");
                 imgBookMark1.setVisibility(View.VISIBLE);
+                rLayoutMonday.setBackgroundColor(getResources().getColor(R.color.lightPinkSelected));
                 break;
 
             case Calendar.TUESDAY:
                 FunctionHelper.initToolbar(MainActivity.this, toolbar, getString(R.string.tuesday), "");
                 imgBookMark2.setVisibility(View.VISIBLE);
+                rLayoutTuesday.setBackgroundColor(getResources().getColor(R.color.lightPinkSelected));
                 break;
 
             case Calendar.WEDNESDAY:
                 FunctionHelper.initToolbar(MainActivity.this, toolbar, getString(R.string.wednesday), "");
                 imgBookMark3.setVisibility(View.VISIBLE);
+                rLayoutWednesday.setBackgroundColor(getResources().getColor(R.color.lightPinkSelected));
                 break;
 
             case Calendar.THURSDAY:
                 FunctionHelper.initToolbar(MainActivity.this, toolbar, getString(R.string.thursday), "");
                 imgBookMark4.setVisibility(View.VISIBLE);
+                rLayoutThursday.setBackgroundColor(getResources().getColor(R.color.lightPinkSelected));
                 break;
 
             case Calendar.FRIDAY:
                 FunctionHelper.initToolbar(MainActivity.this, toolbar, getString(R.string.friday), "");
                 imgBookMark5.setVisibility(View.VISIBLE);
+                rLayoutFriday.setBackgroundColor(getResources().getColor(R.color.lightPinkSelected));
                 break;
             case Calendar.SATURDAY:
                 FunctionHelper.initToolbar(MainActivity.this, toolbar, getString(R.string.saturday), "");
                 imgBookMark6.setVisibility(View.VISIBLE);
+                rLayoutSaturday.setBackgroundColor(getResources().getColor(R.color.lightPinkSelected));
                 break;
 
             case Calendar.SUNDAY:
                 FunctionHelper.initToolbar(MainActivity.this, toolbar, getString(R.string.sunday), "");
                 imgBookMark7.setVisibility(View.VISIBLE);
+                rLayoutSunday.setBackgroundColor(getResources().getColor(R.color.lightPinkSelected));
                 break;
         }
     }

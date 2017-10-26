@@ -30,5 +30,19 @@
         android:padding="@dimen/dimen_4dp"
         android:singleLine="false" />
 
+    <com.bbt.simpleSchedular.widgets.LinedTextView
+        android:id="@+id/txtStory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:gravity="top|left"
+        android:hint="Start writing"
+        android:imeOptions="actionNone"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:minLines="10"
+        android:padding="@dimen/dimen_4dp"
+        android:singleLine="false"
+        android:visibility="gone" />
+
 
 </LinearLayout>

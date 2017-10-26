@@ -40,6 +40,7 @@ public class DayViewActivity extends AppCompatActivity {
     DaySchedule daySchedule;
     private Long createdDateInt;
     private long dayScheduleId;
+    private boolean isStayStill = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,10 @@ public class DayViewActivity extends AppCompatActivity {
 
         getIntentData();
 //        setTextEditing();
+        if (isUpdate) {
+            edtStory.setFocusable(false);
+            edtStory.setClickable(false);
+        }
     }
 
     private void setTextEditing() {
@@ -133,11 +138,14 @@ public class DayViewActivity extends AppCompatActivity {
             case R.id.menuSaveStory:
                 if (!isUpdate) {
                     saveStory();
+                } else {
+                    updateStory();
                 }
                 return true;
             case R.id.menuEditStory:
                 if (isUpdate) {
-                    updateStory();
+                    edtStory.setFocusable(true);
+                    edtStory.setClickable(true);
                 }
                 return true;
 
@@ -152,33 +160,49 @@ public class DayViewActivity extends AppCompatActivity {
 
     private void saveStory() {
         if (TextUtils.isEmpty(edtStory.getText().toString())) {
-            Toast.makeText(context, String.format("your %s story is empty", day), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String story = edtStory.getText().toString();
-        long currentdateTime = Long.parseLong(DateHelper.getDateInIntFormat(new Date()));
+            FunctionHelper.showAlertDialogWithOneOpt(context, String.format("your %s story is empty", day).toLowerCase(), new FunctionHelper.DialogOptionsSelectedListener() {
+                @Override
+                public void onSelect(boolean isYes) {
+                    if (isYes) {
+                        isStayStill = false;
+                        deleteStory();
+                        finish();
+                    } else {
+                        isStayStill = true;
+                    }
+                }
+            }, "Fine by me", "Cancel");
+        } else {
+            String story = edtStory.getText().toString();
+            long currentdateTime = Long.parseLong(DateHelper.getDateInIntFormat(new Date()));
 
-        if (day != null && weekDayId != 0) {
-            DayScheduleRequest dayScheduleRequest = new DayScheduleRequest();
-            dayScheduleRequest.setWeekDay_id((long) weekDayId);
-            dayScheduleRequest.setWeekDay(day);
-            dayScheduleRequest.setStory(story);
-            dayScheduleRequest.setCreatedDateInt(currentdateTime);//old created date time
-            dayScheduleRequest.setUpdatedDateInt(currentdateTime);
-            try {
-                DaySchedule.insertInDaySchedule(dayScheduleRequest);
-                Toast.makeText(context, "Inserted", Toast.LENGTH_SHORT).show();
-                finish();
-            } catch (Exception e) {
-                System.out.println("err" + e.getMessage());
+            if (day != null && weekDayId != 0) {
+                DayScheduleRequest dayScheduleRequest = new DayScheduleRequest();
+                dayScheduleRequest.setWeekDay_id((long) weekDayId);
+                dayScheduleRequest.setWeekDay(day);
+                dayScheduleRequest.setStory(story);
+                dayScheduleRequest.setCreatedDateInt(currentdateTime);//old created date time
+                dayScheduleRequest.setUpdatedDateInt(currentdateTime);
+                try {
+                    DaySchedule.insertInDaySchedule(dayScheduleRequest);
+                    Toast.makeText(context, "Inserted", Toast.LENGTH_SHORT).show();
+                    isStayStill = false;
+                    finish();
+                } catch (Exception e) {
+                    System.out.println("err" + e.getMessage());
+                }
             }
         }
+
     }
 
     private void deleteStory() {
         try {
             DaySchedule.deleteDaySchedule(dayScheduleId);
-            Toast.makeText(context, "Story deleted!", Toast.LENGTH_SHORT).show();
+            if (isUpdate) {
+                Toast.makeText(context, "Story deleted!", Toast.LENGTH_SHORT).show();
+            }
+            isStayStill = false;
             finish();
         } catch (Exception e) {
             e.printStackTrace();
@@ -187,18 +211,28 @@ public class DayViewActivity extends AppCompatActivity {
 
     private void updateStory() {
         if (TextUtils.isEmpty(edtStory.getText().toString())) {
-            Toast.makeText(context, String.format("your %s story is empty", day), Toast.LENGTH_SHORT).show();
-            return;
+            FunctionHelper.showAlertDialogWithOneOpt(context, String.format("your %s story is empty", day).toLowerCase(), new FunctionHelper.DialogOptionsSelectedListener() {
+                @Override
+                public void onSelect(boolean isYes) {
+                    if (isYes) {
+                        deleteStory();
+                    } else {
+                        isStayStill = true;
+                    }
+                }
+            }, "Fine by me", "Cancel");
+        } else {
+            String story = edtStory.getText().toString();
+            long currentdateTime = Long.parseLong(DateHelper.getDateInIntFormat(new Date()));
+            try {
+                DaySchedule.updateInDaySchedule(dayScheduleId, story, currentdateTime);
+                Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
+                isStayStill = false;
+                finish();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        String story = edtStory.getText().toString();
-        long currentdateTime = Long.parseLong(DateHelper.getDateInIntFormat(new Date()));
-        try {
-            DaySchedule.updateInDaySchedule(dayScheduleId, story, currentdateTime);
-            Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finish();
     }
 
     @Override
@@ -210,12 +244,30 @@ public class DayViewActivity extends AppCompatActivity {
         if (isUpdate) {
             menuEditStory.setVisible(true);
             menuDeleteStory.setVisible(true);
-            menuSaveStory.setVisible(false);
+            menuSaveStory.setVisible(true);
         } else {
             menuSaveStory.setVisible(true);
             menuEditStory.setVisible(false);
             menuDeleteStory.setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isUpdate) {
+            updateStory();
+        } else {
+            saveStory();
+        }
+    }
+
+    @Override
+    public void finish() {
+        if (!isStayStill) {
+            super.finish();
+        }
     }
 }

@@ -1,8 +1,10 @@
 package com.bbt.simpleSchedular.helper;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -34,4 +36,34 @@ public class FunctionHelper {
         float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
     }
+
+    public static void showAlertDialogWithOneOpt(Context mContext, String message, final DialogOptionsSelectedListener dialogOptionsSelectedListener, String yesOption, String noOption) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(yesOption, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (dialogOptionsSelectedListener != null)
+                            dialogOptionsSelectedListener.onSelect(true);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton(noOption, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (dialogOptionsSelectedListener != null)
+                            dialogOptionsSelectedListener.onSelect(false);
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+
+        alert.show();
+    }
+
+    public interface DialogOptionsSelectedListener {
+        void onSelect(boolean isYes);
+    }
+
 }
