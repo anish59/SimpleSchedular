@@ -27,12 +27,12 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.CardView
-                app:cardElevation="@dimen/dimen_6dp"
                 android:id="@+id/cardMonday"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                app:cardElevation="@dimen/dimen_6dp">
 
                 <RelativeLayout
                     android:id="@+id/rLayoutMonday"
@@ -245,8 +245,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/imgBookMark5"
-                        android:layout_toEndOf="@+id/imgBookMark5"
-                        android:layout_toRightOf="@+id/imgBookMark5"
                         android:src="@drawable/friday" />
 
                     <TextView
@@ -315,10 +313,10 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardSunday"
-                app:cardElevation="@dimen/dimen_6dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="6dp">
+                android:layout_margin="6dp"
+                app:cardElevation="@dimen/dimen_6dp">
 
                 <RelativeLayout
                     android:id="@+id/rLayoutSunday"

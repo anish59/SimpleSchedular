@@ -15,7 +15,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/menuSaveStory"
-        android:icon="@drawable/ic_save"
+        android:icon="@drawable/ic_tick"
         android:title="@string/save"
         app:showAsAction="always" />
 </menu>

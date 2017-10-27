@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -47,62 +49,37 @@ public class DayViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context = this;
         init();
-//        initListeners();
     }
 
-    private void initListeners() {
-        edtStory.setOnTouchListener(new View.OnTouchListener() {
-
-            private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onDoubleTap(MotionEvent e) {
-                    setTextEditing();
-                    return super.onDoubleTap(e);
-
-                }
-            });
-
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
-                return true;
-            }
-        });
-    }
 
     private void init() {
         setContentView(R.layout.activity_day_view);
         this.edtStory = (LinedEditText) findViewById(R.id.edtStory);
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        setToobar();
+
         getIntentData();
-//        setTextEditing();
         if (isUpdate) {
-            edtStory.setFocusable(false);
-            edtStory.setClickable(false);
+            edtStory.setInputType(InputType.TYPE_NULL);
         }
     }
 
-    private void setTextEditing() {
+    private void setToobar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        if (isEditingEnabled) {
-            Toast.makeText(context, "Edit Mode On", Toast.LENGTH_SHORT).show();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            edtStory.setEnabled(true);
-            isEditingEnabled = false;
-        } else {
-            Toast.makeText(context, "Edit Mode Off", Toast.LENGTH_SHORT).show();
-            edtStory.setEnabled(false);
-            View view = this.getCurrentFocus();
-            if (view != null) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //What to do on back clicked
+                onBackPressed();
             }
-
-            isEditingEnabled = true;
-        }
+        });
     }
+
 
     private void getIntentData() {
         if (getIntent().getStringExtra(AppConstants.INTENT_DAY) != null) {
@@ -127,8 +104,6 @@ public class DayViewActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_day_view, menu);
-
-
         return true;
     }
 
@@ -144,8 +119,9 @@ public class DayViewActivity extends AppCompatActivity {
                 return true;
             case R.id.menuEditStory:
                 if (isUpdate) {
-                    edtStory.setFocusable(true);
-                    edtStory.setClickable(true);
+                    edtStory.setInputType(InputType.TYPE_CLASS_TEXT);
+                    Toast.makeText(context, "Edit Mode on", Toast.LENGTH_SHORT).show();
+                    menuEditStory.setVisible(false);
                 }
                 return true;
 
