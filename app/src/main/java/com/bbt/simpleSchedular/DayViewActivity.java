@@ -67,6 +67,7 @@ public class DayViewActivity extends AppCompatActivity {
 
     private void setToobar() {
         setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -161,7 +162,7 @@ public class DayViewActivity extends AppCompatActivity {
                 dayScheduleRequest.setUpdatedDateInt(currentdateTime);
                 try {
                     DaySchedule.insertInDaySchedule(dayScheduleRequest);
-                    Toast.makeText(context, "Inserted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Story saved", Toast.LENGTH_SHORT).show();
                     isStayStill = false;
                     finish();
                 } catch (Exception e) {
@@ -202,7 +203,7 @@ public class DayViewActivity extends AppCompatActivity {
             long currentdateTime = Long.parseLong(DateHelper.getDateInIntFormat(new Date()));
             try {
                 DaySchedule.updateInDaySchedule(dayScheduleId, story, currentdateTime);
-                Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Story Updated", Toast.LENGTH_SHORT).show();
                 isStayStill = false;
                 finish();
             } catch (Exception e) {

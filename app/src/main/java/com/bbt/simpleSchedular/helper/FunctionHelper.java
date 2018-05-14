@@ -20,7 +20,7 @@ public class FunctionHelper {
         toolbar.setTitle(title);
         toolbar.setSubtitle(subtitle);
         toolbar.setTitleTextColor(Color.WHITE);
-        activity.setSupportActionBar(toolbar);
+//        activity.setSupportActionBar(toolbar);
     }
 
     public static float dpToPixel(float dp, Context context) {
